@@ -23,10 +23,13 @@
       $query = "SELECT * FROM utenti WHERE username = '$username' AND password = '$password'";
       $result = pg_query($dbconn, $query);
 
-      if (pg_num_rows($result) > 0) {
-        echo "<p>Benvenuto, " . htmlspecialchars($username) . "!</p>";
+      if ($result && pg_num_rows($result) > 0) {
+        echo "Login effettuato!<br>";
+        while ($row = pg_fetch_assoc($result)) {
+            echo "Benvenuto, " . $row["username"] . "<br>";
+        }
       } else {
-        echo "<p>Credenziali non valide.</p>";
+          echo "Login fallito.";
       }
     }
   ?>
